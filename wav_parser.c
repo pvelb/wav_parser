@@ -1,13 +1,21 @@
-/*
- * wav_parser.c
- *
- *  Created on: Dec 29, 2021
- *      Author: power
+/**
+	\file wav_parser.c
+	\brief wav_parser file
+
+	\author PBabak
+	\version 1.0
+	\date Dec 29, 2021
+
+	There are parser functions
  */
+
 #include "main.h"
 #include "stdio.h"
 #include "wav_parser.h"
 #include "string.h"
+/**
+  \brief Input file data
+ */
 const uint8_t wavFileData[928]={
 		0x52, 0x49, 0x46, 0x46, 0x98, 0x03, 0x00, 0x00, 0x57, 0x41, 0x56, 0x45, 0x66, 0x6D, 0x74, 0x20,
 		0x10, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x44, 0xAC, 0x00, 0x00, 0x88, 0x58, 0x01, 0x00,
@@ -68,7 +76,12 @@ const uint8_t wavFileData[928]={
 		0x14, 0x03, 0xDE, 0x02, 0xA5, 0x02, 0x6B, 0x02, 0x30, 0x02, 0xF3, 0x01, 0xB7, 0x01, 0x7C, 0x01,
 		0x42, 0x01, 0x0A, 0x01, 0xD4, 0x00, 0xA2, 0x00, 0x73, 0x00, 0x48, 0x00, 0x21, 0x00, 0x00, 0x00
 };
+/**
+  \brief File header print function
 
+  This function print all file header data to the terminal
+  \param[in] file Input parameter is pointer to WavHeaderTypeDef structure
+ */
 void wavPrintHeader(WavHeaderTypeDef* file){
 	char tmpBuf[sizeof(file->riff)+1];
 	memset(tmpBuf,0, sizeof(tmpBuf));
@@ -91,7 +104,14 @@ void wavPrintHeader(WavHeaderTypeDef* file){
 	printf("datChunkHeader: %s\n",tmpBuf);
 	printf("dataSize: %d\n", file->dataSize);
 }
+/**
+  \brief File converter function
 
+  This function reads file data section and converts data to csv file format.
+  \param[in] file WavHeaderTypeDef structure as a pointer to input file;
+  \param[in] csv  char pointer as output
+  \return Operation status. 0 - OK, -1 - fail.
+ */
 int wav2csv(WavHeaderTypeDef* file, char* csv){
 	if(file->chNumb==1)
 	{
